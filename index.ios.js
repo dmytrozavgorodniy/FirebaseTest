@@ -11,7 +11,8 @@ const AnalyticsScene = require('./components/AnalyticsScene');
 const CrashReportingScene = require('./components/CrashReportingScene');
 const NotificationsScene = require('./components/NotificationsScene');
 
-const Analytics = require('react-native-firebase-analytics');
+const FirebaseAnalytics = require('react-native-firebase-analytics');
+import FirebaseCrash from 'react-native-firebase-crash-report';
 
 const styles = require('./styles.js')
 
@@ -29,22 +30,22 @@ export default class FirebaseTest extends Component {
   // Firebase Analytics
 
   analyticsEnabled = (isEnabled) => {
-    Analytics.setEnabled(isEnabled);
+    FirebaseAnalytics.setEnabled(isEnabled);
     console.log(`[FirebaseTestApp] Analytics isEnabled=${isEnabled}`);
   }
 
   logScreenName = (screenName) => {
-    Analytics.setScreenName(screenName);
+    FirebaseAnalytics.setScreenName(screenName);
     console.log(`[FirebaseTestApp] Log Screen Name: ${screenName}`);
   }
 
   logUserID = (userID) => {
-    Analytics.setUserId(userID);
+    FirebaseAnalytics.setUserId(userID);
     console.log(`[FirebaseTestApp] Log user ID: ${userID}`);
   }
 
   logUserProperty = (name, value) => {
-    Analytics.setUserProperty(name, value);
+    FirebaseAnalytics.setUserProperty(name, value);
     console.log(`[FirebaseTestApp] Log user property: ${name} with value: ${value}`);
   }
 
@@ -52,8 +53,25 @@ export default class FirebaseTest extends Component {
     const parameters = {
       newValue: value
     };
-    Analytics.logEvent(event, parameters);
+    FirebaseAnalytics.logEvent(event, parameters);
     console.log(`[FirebaseTestApp] Log event: ${event} with new value: ${value}`);
+  }
+
+  // Firebase Crash Report
+  crashReportLog = (message) => {
+    console.log(`[FirebaseTestApp] Crash Report Log: ${message}`);
+    FirebaseCrash.log(message);
+  }
+
+  crashReportLogcat = (message) => {
+    console.log(`[FirebaseTestApp] Crash Report Logcat: ${message}`);
+    FirebaseCrash.logcat(message);
+  }
+
+  // TODO: weird name for function...
+  crashReportReport = (message) => {
+    console.log(`[FirebaseTestApp] Crash Report Report: ${message}`);
+    FirebaseCrash.report(message);
   }
 
   // Lifecycle
@@ -119,6 +137,25 @@ export default class FirebaseTest extends Component {
     });
   }
 
+  // Crash Reporting Scene Callbacks
+
+  onCrashReportLogPress = (message) => {
+    // Side effect: crash report log to firebase crash report
+    this.crashReportLog(message);
+  }
+
+  onCrashReportLogcatPress = (message) => {
+    // Side effect: crash report logcat to firebase crash report
+    this.crashReportLogcat(message);
+
+  }
+
+  // TODO: weird name for function...
+  onCrashReportReportPress = (message) => {
+    // Side effect: crash report report to firebase crash report
+    this.crashReportReport(message);
+  }
+
   // Private
   _tabBarItemOnPress(selectedTab) {
     // Side effect: log event to firebase analytics
@@ -153,7 +190,8 @@ export default class FirebaseTest extends Component {
             onLogEventPress={this.onLogEventPress}
             onLogFavoriteSportUserPropertyPress={this.onLogFavoriteSportUserPropertyPress}
             onSegmentedControlValueChange={this.onSegmentedControlValueChange}
-            onPickerValueChange={this.onPickerValueChange} />
+            onPickerValueChange={this.onPickerValueChange}
+            />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Crash Reporting"
@@ -162,7 +200,12 @@ export default class FirebaseTest extends Component {
           onPress={() => {
             this._tabBarItemOnPress('crash-reporting');
           }}>
-          <CrashReportingScene title="Crash Reporting" />
+          <CrashReportingScene
+            title="Crash Reporting"
+            onLogPress={this.onCrashReportLogPress}
+            onLogcatPress={this.onCrashReportLogcatPress}
+            onReportPress={this.onCrashReportReportPress}
+            />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Notifications"

@@ -36,7 +36,6 @@ var styles = StyleSheet.create({
     paddingBottom: 4,
   },
   sectionHeaderText: {
-    fontFamily: '.SFUIText',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 13,
@@ -49,7 +48,6 @@ var styles = StyleSheet.create({
     paddingBottom: 4,
   },
   sectionFooterText: {
-    fontFamily: '.SFUIText',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 13,
@@ -72,7 +70,6 @@ var styles = StyleSheet.create({
     height: 25,
   },
   text: {
-    fontFamily: '.SFUIText',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 14,

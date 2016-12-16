@@ -1,6 +1,7 @@
 package com.firebasetest;
 
 import com.facebook.react.ReactActivity;
+import com.ianlin.RNFirebaseCrashReport.RNFirebaseCrashReportPackage;
 import com.evollu.react.fa.FIRAnalyticsPackage;
 
 public class MainActivity extends ReactActivity {

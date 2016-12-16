@@ -6,6 +6,7 @@ target 'FirebaseTest' do
   use_frameworks!
   
   pod 'Firebase/Core'
+  pod 'Firebase/Crash'
 
   # Pods for FirebaseTest
 
